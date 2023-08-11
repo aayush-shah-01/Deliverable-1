@@ -5,45 +5,47 @@
  */
 package ca.sheridancollege.project;
 
-/**
- * A class that models each Player in the game. Players have an identifier, which should be unique.
- *
- * @author dancye
- * @author Paul Bonenfant Jan 2020
- */
-public abstract class Player {
+import java.util.ArrayList;
+import java.util.List;
 
-    private String name; //the unique name for this player
+public class Player {
+    private String name;
+    private GroupOfCards stack = new GroupOfCards();
+    private int pilesWon = 0;
 
-    /**
-     * A constructor that allows you to set the player's unique ID
-     *
-     * @param name the unique ID to assign to this player.
-     */
     public Player(String name) {
         this.name = name;
     }
 
-    /**
-     * @return the player name
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * Ensure that the playerID is unique
-     *
-     * @param name the player name to set
-     */
-    public void setName(String name) {
-        this.name = name;
+    public GroupOfCards getStack() {
+        return stack;
     }
 
-    /**
-     * The method to be overridden when you subclass the Player class with your specific type of Player and filled in
-     * with logic to play your game.
-     */
-    public abstract void play();
+public void addToStack(List<Card> cards) {
+    stack.getCards().addAll(cards);
+}
 
+    public boolean hasMatchingCard(Card pileTopCard) {
+        for (Card card : stack.getCards()) {
+            if (card.getRank().equals(pileTopCard.getRank())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Card playCard() {
+        return stack.drawCard();
+    }
+     public void incrementPilesWon() {
+        pilesWon++;
+    }
+
+    public int getPilesWon() {
+        return pilesWon;
+    }
 }
